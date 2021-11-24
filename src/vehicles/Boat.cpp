@@ -967,10 +967,14 @@ CBoat::PreRender(void)
 #ifdef FREE_CAM
 			if(!CCamera::bFreeCam || (CCamera::bFreeCam && !CPad::IsAffectedByController))
 #endif
-			steeringUpDown += ((Abs(CPad::GetPad(0)->GetCarGunUpDown()) > 1.0f ? (-CPad::GetPad(0)->GetCarGunUpDown()/128.0f) : (-CPad::GetPad(0)->GetSteeringUpDown()/128.0f)) - steeringUpDown) * Min(1.f, CTimer::GetTimeStep()/5.f);
+			// Fixed SKIMMER tail wings animation, to revert that replace the line below with:
+			// steeringUpDown += ((Abs(CPad::GetPad(0)->GetCarGunUpDown()) > 1.0f ? (-CPad::GetPad(0)->GetCarGunUpDown()/128.0f) : (-CPad::GetPad(0)->GetSteeringUpDown()/128.0f)) - steeringUpDown) * Min(1.f, CTimer::GetTimeStep()/5.f);
+			steeringUpDown += ((Abs(CPad::GetPad(0)->GetCarGunUpDown()) > 1.0f ? (CPad::GetPad(0)->GetCarGunUpDown()/128.0f) : (CPad::GetPad(0)->GetSteeringUpDown()/128.0f)) - steeringUpDown) * Min(1.f, CTimer::GetTimeStep()/5.f);
 #ifdef FREE_CAM
 			else
-				steeringUpDown = -CPad::GetPad(0)->GetSteeringUpDown()/128.0f;
+				// Fixed SKIMMER tail wings animation, to revert that replace the line below with:
+				// steeringUpDown = -CPad::GetPad(0)->GetSteeringUpDown()/128.0f;
+				steeringUpDown = CPad::GetPad(0)->GetSteeringUpDown()/128.0f;
 #endif
 #else
 			float steeringUpDown = -CPad::GetPad(0)->GetSteeringUpDown()/128.0f;
